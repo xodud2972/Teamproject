@@ -1,0 +1,13 @@
+diff a/workspace/Porject2/res/mybatis/sqlmaps.xml b/workspace/Porject2/res/mybatis/sqlmaps.xml	(rejected hunks)
+@@ -13,4 +13,10 @@
+     <select id="loginCheck" resultType="login.LoginDto">
+         select * from user WHERE id=#{id}
+     </select>
++    <!--         dao                        dto                 -->
++    <insert id="JoinDao" parameterType="login.JoinDto">
++    <!--                         파라미터 명                                                   -->
++    	insert into user(id, pass, name, phone,email,birth,user_nickname) 
++    	values(#{id},#{pass},#{name},#{phone},#{email},#{birth},#{user_nickname})
++    </insert>
+ </mapper>
+\ No newline at end of file

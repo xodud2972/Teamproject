@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev">
+
+
+
+
+   <!--     ksh            -->
+    <insert id="JoinDao" parameterType="login.JoinDto">
+      insert into user(id, pass, name, phone,email,birth,user_nickname) 
+       values(#{id},#{pass},#{name},#{phone},#{email},#{birth},#{user_nickname})
+    </insert>
+    <select id="id_check" resultType="login.LoginDto">
+        select * from user WHERE id=#{id}
+    </select>
+    <select id="nick_check" resultType="login.LoginDto">
+        select * from user WHERE user_nickname=#{user_nickname}
+    </select>
+    <select id="loginCheck" resultType="login.LoginDto">
+        select * from user WHERE id=#{id}
+    </select>
+    
+    
+    
+
+  <!--  진아 -->
+     <!--  중고장터 -->
+    <insert id="insertMarketPost" parameterType="market.MarketPostDto">
+      insert into usermarket(pk_user, title, price, content, filename) 
+       values(#{pk_user},#{title},#{price},#{content},#{filename})
+    </insert>
+    
+    <select id="selectMarketPostList" resultType="market.MarketPostDto">
+      select * from usermarket a, user b where a.pk_user=b.pk_user order by a.pk_usermarket desc        
+    </select>
+    
+     <select id="selectMarketPostOne" resultType="market.MarketReviewDto">
+        select pk_usermarket, pk_user , title, content, price, regdate  from usermarket WHERE pk_usermarket= #{pk_usermarket}
+    </select>
+    
+     <update id="updateMarketPost" parameterType="market.MarketPostDto">
+      update usermarket set title = #{title}, price= #{price},content = #{content}, filename= #{filename} WHERE pk_usermarket= #{pk_usermarket}
+   </update>
+   
+   <delete id="deleteMarketPost" parameterType="market.MarketPostDto">
+      delete from usermarket  WHERE pk_usermarket= #{pk_usermarket}
+   </delete>
+   
+    <select id= "selectMarketSearch" resultType= "market.MarketPostDto">
+       select * from usermarket where ${category} like '%${keyword}%'
+   </select>
+
+   <!--  리뷰 -->
+   <select id="selectReviewList" resultType="market.MarketReviewDto">
+      <!-- select * from user_review order by pk_user_review desc -->
+      select * from user_review a, usermarket b where a.pk_usermarket=b.pk_usermarket order by a.pk_user_review desc                            
+    </select>
+    
+     <select id="selectReviewOne" resultType="market.MarketReviewDto">
+        select pk_user_review, pk_usermarket , seller, buyer, content, rev_date, score, hide  from user_review WHERE pk_usermarket= #{pk_usermarket}
+    </select>
+
+   <delete id="deleteReview" parameterType="market.MarketReviewDto">
+      delete from user_review  WHERE pk_user_review= #{pk_user_review}
+   </delete>
+   
+    <select id= "selectReviewSearch" resultType= "market.MarketReviewDto">
+       select * from user_review where ${reviewCategory} like '%${reviewKeyword}%'
+   </select>
+   
+      <update id="updateDisplayState" parameterType="market.MarketReviewDto">
+      update user_review set hide= #{hide} WHERE pk_user_review= #{pk_user_review}
+    </update>
+
+
+
+
+
+<!-- 태영 --> 
+    <insert id="insertBooking" parameterType="reservation.BookingDto">
+      insert into booking(pk_user, price, memo, book_date) 
+       values(#{pk_user},#{price},#{memo},#{book_date})
+    </insert>
+    
+
+   <delete id="deleteBooking" parameterType="reservation.BookingDto">
+      delete from booking  where pk_booking= #{pk_booking}
+   </delete>
+
+    <select id="selectAllBookingdetail" resultType="reservation.BookingDto">
+            select * from booking a, user b where a.pk_user=b.pk_user order by a.pk_booking desc      
+    </select>
+
+    <select id="searchBookingdetail" resultType="reservation.BookingDto">
+        select * from booking where ${Searchcategory} like ${keyword}
+    </select>
+    
+   <update id="updateBooking" parameterType="reservation.BookingDto">
+      update booking set price =#{price},
+                    book_date =#{book_date},
+                    memo =#{memo}
+       where pk_booking = #{pk_booking}
+   </update> 
+   
+   
+   <delete id="deleteCompany" parameterType="company.CompanyDto">
+      delete from company  where pk_company= #{pk_company}
+   </delete>
+
+    <select id="selectAllCompanydetail" resultType="company.CompanyDto">
+            select * from company limit 50      
+    </select>
+ 
+    <select id="searchCompanydetail" resultType="company.CompanyDto">
+        select * from company where ${Searchcategory} like ${keyword}
+    </select>
+    
+
+
+    <!-- 석호씨 -->
+   <select id="selectAllUser" resultType="user.UserDto">
+    select * from user limit 50
+    </select>
+    <select id="searchUser" resultType="user.UserDto">
+        select * from user where ${searchcategory} = #{keyword}
+    </select>
+    <update id="updateUser" parameterType="user.UserDto">
+        update user set id =#{id},
+                        pass =#{pass},
+                        name =#{name},
+                        phone =#{phone},
+                        email =#{email},
+                        regdate =#{regdate},
+                        level =${level},
+                        birth =#{birth},
+                        user_nickname =#{user_nickname}
+        where pk_user = ${pk_user}
+    </update>
+    <select id="selectAllBikedetail" resultType="bike.BikeDto">
+        select * from bikedetail limit 50
+    </select>
+    <select id="searchBikedetail" resultType="bike.BikeDto">
+        select * from bikedetail where ${searchcategory} = #{keyword}
+    </select>
+    <update id="updateBikedetail" parameterType="bike.BikeDto">
+        update bikedetail set company =#{company},
+                              model =#{model},
+                              Year =${Year},
+                              Category =#{Category},
+                              Power_HP =#{Power_HP},
+                              Bore_mm =#{Bore_mm},
+                              Stroke_mm =#{Stroke_mm},
+                              Torque_Nm =#{Torque_Nm},
+                              Engine_type =#{Engine_type},
+                              Fuel_system =#{Fuel_system},
+                              Cooling_system =#{Cooling_system},
+                              Gearbox =#{Gearbox},
+                              Front_suspension =#{Front_suspension},
+                              Rear_suspension =#{Rear_suspension},
+                              Front_tyre =#{Front_tyre},
+                              Rear_tyre =#{Rear_tyre},
+                              Front_brakes =#{Front_brakes},
+                              Rear_brakes =#{Rear_brakes},
+                              Compression_Ratio =#{Compression_Ratio},
+                              Light =#{Light},
+                              Displacement_ccm =#{Displacement_ccm},
+                              Wheelbase_mm =#{Wheelbase_mm},
+                              Fuel_capacity_liters =#{Fuel_capacity_liters},
+                              Dry_weight_kg =#{Dry_weight_kg},
+                              Weight_incl_oil_gas_etc_kg =#{Weight_incl_oil_gas_etc_kg},
+                              Overall_height_mm =#{Overall_height_mm},
+                              Overall_length_mm =#{Overall_length_mm},
+                              Overall_width_mm =#{Overall_width_mm},
+                              Oil_capacity_liters =#{Oil_capacity_liters},
+                              Seat_height_mm =#{Seat_height_mm},
+                              Compression_Enumerator =#{Compression_Enumerator},
+                              Fuel_consumption_miles_gallon =#{Fuel_consumption_miles_gallon},
+                              Automatic_gearbox =#{Automatic_gearbox},
+                              Torque_Benchmark_RPM =#{Torque_Benchmark_RPM},
+                              Power_Benchmark_RPM =#{Power_Benchmark_RPM}
+        where no = ${no}
+    </update>
+
+   <!-- 고객센터-->
+    <select id="selectAllCustomerservice" resultType="customer.CustomerDto">
+        Select a.pk_customerservice, b.name, a.title,a.content,a.regdate,a.answered from customerservice a, user b where a.pk_user=b.pk_user
+    </select>
+    <select id="searchAnsDetail" resultType="customer.CustomerAnsDto">
+        select * from customerans where pk_customerservice=#{pk_customerservice}
+    </select>
+     <select id="searchCustomer" resultType="customer.CustomerDto">
+        select * from customerservice where #{customerCategory} like '%${customerKeyword}%'
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+</mapper>

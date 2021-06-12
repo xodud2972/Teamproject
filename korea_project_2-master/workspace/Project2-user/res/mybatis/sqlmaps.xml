@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev">
+
+
+
+
+	<!--     ksh            -->
+    <insert id="JoinDao" parameterType="login.JoinDto">
+		insert into user(id, pass, name, phone,email,birth,user_nickname) 
+    	values(#{id},#{pass},#{name},#{phone},#{email},#{birth},#{user_nickname})
+    </insert>
+    <select id="id_check" resultType="login.LoginDto">
+        select * from user WHERE id=#{id}
+    </select>
+    <select id="nick_check" resultType="login.LoginDto">
+        select * from user WHERE user_nickname=#{user_nickname}
+    </select>
+    <select id="loginCheck" resultType="login.LoginDto">
+        select * from user WHERE id=#{id}
+    </select>
+    
+    
+    
+
+  <!--  진아 -->
+    <insert id="insertMarketPost" parameterType="market.MarketPostDto">
+      insert into usermarket(pk_user, title, price, content, filename) 
+       values(#{pk_user},#{title},#{price},#{content},#{filename})
+    </insert>
+    
+    <select id="selectMarketPostList" resultType="market.MarketPostDto">
+		select * from usermarket a, user b where a.pk_user=b.pk_user order by a.pk_usermarket desc        
+    </select>
+    
+     <select id="selectMarketPostOne" resultType="util.MemberDto">
+        select pk_usermarket, pk_user , title, content, price, regdate  from usermarket WHERE pk_usermarket= #{pk_usermarket}
+    </select>
+    
+     <update id="updateMarketPost" parameterType="market.MarketPostDto">
+      update usermarket set title = #{title}, price= #{price},content = #{content}, filename #{filename} WHERE pk_usermarket= #{pk_usermarket}
+   </update> 
+
+   <delete id="deleteMarketPost" parameterType="market.MarketPostDto">
+      delete from usermarket  WHERE pk_usermarket= #{pk_usermarket}
+   </delete>
+   
+    <select id= "selectMarketSearch" resultType= "market.MarketPostDto">
+       select * from usermarket where title like '%#{t_search}%' or content like '%#{t_search}%'
+   </select>
+
+
+
+
+
+
+   <!-- 태영 --> 
+    <insert id="BookingDao" parameterType="reservation.BookingDto">
+      insert into booking(pk_booking, pk_wanted, pk_user, pk_mybike, pk_company,book_date, price, memo, regdate) 
+       values(#{pk_booking},#{pk_wanted},#{pk_user},#{pk_mybike},#{pk_company},#{book_date},#{price},#{memo},#{regdate})
+    </insert>
+    <select id="selectbookingAll" resultType="reservation.BookingDto">
+        select * from booking
+    </select>
+    <insert id="CompanyDao" parameterType="company.CompanyDto">
+      insert into company(addr, comp_id, comp_pass, introduce, pk_company,tel) 
+       values(#{addr},#{comp_id},#{comp_pass},#{introduce},#{pk_company},#{tel})
+    </insert>
+    <select id="selectCompanyAll" resultType="company.CompanyDto">
+        select * from company
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- 석호씨 -->
+   <select id="selectAllUser" resultType="user.UserDto">
+    select * from user limit 50
+    </select>
+    <select id="searchUser" resultType="user.UserDto">
+        select * from user where ${searchcategory} = #{keyword}
+    </select>
+    <update id="updateUser" parameterType="user.UserDto">
+        update user set id =#{id},
+                        pass =#{pass},
+                        name =#{name},
+                        phone =#{phone},
+                        email =#{email},
+                        regdate =#{regdate},
+                        level =${level},
+                        birth =#{birth},
+                        user_nickname =#{user_nickname}
+        where pk_user = ${pk_user}
+    </update>
+    <select id="selectAllBikedetail" resultType="bike.BikeDto">
+        select * from bikedetail limit 50
+    </select>
+    <select id="searchBikedetail" resultType="bike.BikeDto">
+        select * from bikedetail where ${searchcategory} = #{keyword}
+    </select>
+    <update id="updateBikedetail" parameterType="bike.BikeDto">
+        update bikedetail set company =#{company},
+                              model =#{model},
+                              Year =${Year},
+                              Category =#{Category},
+                              Power_HP =#{Power_HP},
+                              Bore_mm =#{Bore_mm},
+                              Stroke_mm =#{Stroke_mm},
+                              Torque_Nm =#{Torque_Nm},
+                              Engine_type =#{Engine_type},
+                              Fuel_system =#{Fuel_system},
+                              Cooling_system =#{Cooling_system},
+                              Gearbox =#{Gearbox},
+                              Front_suspension =#{Front_suspension},
+                              Rear_suspension =#{Rear_suspension},
+                              Front_tyre =#{Front_tyre},
+                              Rear_tyre =#{Rear_tyre},
+                              Front_brakes =#{Front_brakes},
+                              Rear_brakes =#{Rear_brakes},
+                              Compression_Ratio =#{Compression_Ratio},
+                              Light =#{Light},
+                              Displacement_ccm =#{Displacement_ccm},
+                              Wheelbase_mm =#{Wheelbase_mm},
+                              Fuel_capacity_liters =#{Fuel_capacity_liters},
+                              Dry_weight_kg =#{Dry_weight_kg},
+                              Weight_incl_oil_gas_etc_kg =#{Weight_incl_oil_gas_etc_kg},
+                              Overall_height_mm =#{Overall_height_mm},
+                              Overall_length_mm =#{Overall_length_mm},
+                              Overall_width_mm =#{Overall_width_mm},
+                              Oil_capacity_liters =#{Oil_capacity_liters},
+                              Seat_height_mm =#{Seat_height_mm},
+                              Compression_Enumerator =#{Compression_Enumerator},
+                              Fuel_consumption_miles_gallon =#{Fuel_consumption_miles_gallon},
+                              Automatic_gearbox =#{Automatic_gearbox},
+                              Torque_Benchmark_RPM =#{Torque_Benchmark_RPM},
+                              Power_Benchmark_RPM =#{Power_Benchmark_RPM}
+        where no = ${no}
+    </update>
+    
+    
+    
+    
+    
+    
+    
+    
+</mapper>

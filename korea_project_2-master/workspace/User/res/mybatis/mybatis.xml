@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <properties resource="mybatis/db.properties" />
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC" />
+
+            <dataSource type="POOLED">
+                <!-- POOLED 설정 이유
+                1. 미리 db 커넥션 객체를 생성해 두고 요청하면 즉시 반환한다.
+                2. db에 연결하는 과정 즉 연결을 초기화 하고 사용자를 인증하는
+                  과정이 없기 때문에 속도가 빠르다. -->
+
+                <property name="driver" value="${driver}" />
+                <property name="url" value="${url}" />
+                <property name="username" value="${username}" />
+                <property name="password" value="${password}" />
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mybatis/sqlmaps.xml" />
+    </mappers>
+</configuration>
